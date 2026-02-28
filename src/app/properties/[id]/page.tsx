@@ -1,8 +1,7 @@
-import { Playfair_Display } from 'next/font/google'
+import { Playfair_Display } from "next/font/google";
 import Image from 'next/image'
 import Link from 'next/link'
 import BookingWidget from '@/components/BookingWidget'
-import { Button } from '@/components/ui/button'
 import {
     MapPin,
     Users,
@@ -15,232 +14,54 @@ import {
     Maximize2,
     Crown,
     Waves,
-    Award
+    Award,
+    Sparkles
 } from 'lucide-react'
+import { supabase } from '@/lib/supabase'
+import { notFound } from 'next/navigation'
 
 const playfair = Playfair_Display({ subsets: ['latin'] })
 
-const PROPERTIES_DATA: Record<string, any> = {
-    'prop_villa_beverly_110': {
-        id: 'prop_villa_beverly_110',
-        name: 'Villa Beverly 110: An Elegant 8-Bedroom Retreat',
-        location: 'Sheikh Zayed',
-        description: `Welcome to Villa Beverly 110, a stunning and expansive property located in the highly sought-after Beverly Hills Compound. Offering an incredible blend of luxury, comfort, and ample space, this villa is the perfect destination for large families or groups looking for a relaxing and private getaway in Sheikh Zayed.
+export const dynamic = 'force-dynamic'
 
-The Space
-Designed to comfortably accommodate large groups without compromising on privacy, the villa features 8 beautifully furnished bedrooms and 6 modern bathrooms.
-
-• 4 Master Suites: Offering premium comfort, exceptional privacy, and en-suite convenience for a truly relaxing stay.
-• 4 Spacious Bedrooms: Elegantly designed with plenty of room for family members or guests.
-• Additional Room: A flexible extra space that can be utilized based on your group's unique needs.
-
-Outdoor Oasis & Amenities
-Step into your own private resort. Villa Beverly 110 features a lush, well-maintained private garden that provides a serene backdrop for your stay. Enjoy sunny afternoons or warm evenings lounging by the spectacular private swimming pool, making every day feel like a vacation.
-
-Property Highlights at a Glance:
-• Capacity: 8 Bedrooms (Including 4 Master Suites) + 1 Extra Room
-• Bathrooms: 6 well-appointed bathrooms
-• Outdoors: Private Swimming Pool & Landscaped Garden
-• Vibe: Secure, peaceful, and family-friendly community
-
-Don't miss the opportunity to experience this beautiful home. Book your stay at Villa Beverly 110 today and enjoy an unforgettable retreat!`,
-        pricePerNight: 270,
-        amenities: [
-            { name: 'Private Pool', icon: Waves },
-            { name: 'Landscaped Garden', icon: Crown },
-            { name: 'Extra Flexible Room', icon: Users },
-            { name: 'Secure Community', icon: ShieldCheck },
-        ],
-        details: [
-            { name: '16 guests', icon: Users },
-            { name: '8 bedrooms', icon: Bed },
-            { name: '6 baths', icon: Bath },
-        ],
-        images: Array.from({ length: 48 }, (_, i) => `/فيلا بيفرلي 110 (${i + 1}).jpeg`),
-        video: '/فيلا بيفرلي 110 (1).mp4'
-    },
-    'prop_qasr_el_sawah': {
-        id: 'prop_qasr_el_sawah',
-        name: 'Qasr El Sawah: A Magnificent 9-Bedroom Palace',
-        location: 'Sheikh Zayed',
-        description: `Welcome to Qasr El Sawah, an exceptional and luxurious retreat nestled in the prestigious Al Tharwa Al Khadraa neighborhood of Sheikh Zayed. Designed for ultimate comfort and privacy, this magnificent villa is the perfect destination for large families, corporate retreats, or group getaways seeking a premium lifestyle experience.
-
-The Space
-Spanning a generous layout, the property boasts 9 beautifully appointed bedrooms to accommodate large groups with ease.
-
-• 3 Luxurious Master Suites: Offering absolute privacy, premium comfort, and en-suite facilities.
-• 5 Spacious Bedrooms: Designed for restful nights with ample storage and elegant decor.
-• 1 Standard Room: Perfect for additional guests or as a cozy single room.
-
-Outdoor Oasis & Amenities
-Step outside into your own private haven. Qasr El Sawah features a beautifully landscaped private garden, perfect for morning coffees or evening gatherings. At the heart of the outdoor space is a stunning private swimming pool, offering a refreshing escape during warm sunny days.
-
-Additional Features
-For your convenience and peace of mind, the property includes a dedicated Nanny's room complete with its own private bathroom, ensuring privacy for both your family and your domestic staff.
-
-Property Highlights at a Glance:
-• Capacity: 9 Bedrooms (Including 3 Master Suites)
-• Outdoors: Private Swimming Pool & Lush Garden
-• Staff Quarters: Nanny/Maid’s room with a private en-suite bathroom
-• Vibe: Exclusive, tranquil, and highly secure
-
-Experience the pinnacle of luxury living and make unforgettable memories at Qasr El Sawah. Book your stay today!`,
-        pricePerNight: 500,
-        amenities: [
-            { name: 'Private Pool', icon: Waves },
-            { name: 'Lush Garden', icon: Crown },
-            { name: 'Nanny Room + Bath', icon: Users },
-            { name: 'Secure Estate', icon: ShieldCheck },
-        ],
-        details: [
-            { name: '18 guests', icon: Users },
-            { name: '9 bedrooms', icon: Bed },
-            { name: '6 baths', icon: Bath },
-        ],
-        images: Array.from({ length: 34 }, (_, i) => `/قصر السواح (${i + 1}).jpg`),
-    },
-    'prop_1': {
-        id: 'prop_1',
-        name: 'The Obsidian Villa',
-        location: 'Sheikh Zayed',
-        description: `Nestled in the heart of Sheikh Zayed, The Obsidian Villa offers an unparalleled living experience. This architectural masterpiece features minimalist design with floor-to-ceiling windows, private infinity pool, and state-of-the-art home automation. 
-
-Every corner of this residence has been meticulously curated for the class A client who seeks privacy, elegance, and modern comfort. The open-plan living area flows seamlessly into the manicured gardens, providing a perfect sanctuary from the bustling city.`,
-        pricePerNight: 850,
-        amenities: [
-            { name: 'Wifi', icon: Wifi },
-            { name: 'Air Conditioning', icon: Wind },
-            { name: 'Security', icon: ShieldCheck },
-            { name: 'Coffee Machine', icon: Coffee },
-        ],
-        details: [
-            { name: '8 guests', icon: Users },
-            { name: '4 bedrooms', icon: Bed },
-            { name: '4.5 baths', icon: Bath },
-        ],
-        images: [
-            'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
-            'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80',
-        ]
-    },
-    'prop_2': {
-        id: 'prop_2',
-        name: 'Azure Penthouse',
-        location: 'New Cairo',
-        description: 'Perched high above the city, the Azure Penthouse offers panoramic views of New Cairo\'s skyline. This modern sanctuary features a spacious terrace, private glass-walled office, and a dedicated wellness area.',
-        pricePerNight: 620,
-        amenities: [
-            { name: 'Terrace', icon: Maximize2 },
-            { name: 'Modern Kitchen', icon: Coffee },
-            { name: 'Central AC', icon: Wind },
-            { name: 'High-speed Wifi', icon: Wifi },
-        ],
-        details: [
-            { name: '6 guests', icon: Users },
-            { name: '3 bedrooms', icon: Bed },
-            { name: '3.5 baths', icon: Bath },
-        ],
-        images: [
-            'https://images.unsplash.com/photo-1600607687940-4e524cb35a33?auto=format&fit=crop&w=1200&q=80',
-            'https://images.unsplash.com/photo-1600607687644-c7171b42498f?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80',
-        ]
-    },
-    'prop_3': {
-        id: 'prop_3',
-        name: 'Royal Sun Manor',
-        location: '6th of October',
-        description: 'A legacy estate of grand proportions, Royal Sun Manor is situated on a sprawling lot in 6th of October. Featuring classical architecture, a private park, and a grand ballroom, it is the epitome of luxury living.',
-        pricePerNight: 1200,
-        amenities: [
-            { name: 'Private Park', icon: Waves },
-            { name: 'Grand Entrance', icon: Crown },
-            { name: 'Security Detail', icon: ShieldCheck },
-            { name: 'Wine Cellar', icon: Coffee },
-        ],
-        details: [
-            { name: '12 guests', icon: Users },
-            { name: '6 bedrooms', icon: Bed },
-            { name: '7 baths', icon: Bath },
-        ],
-        images: [
-            'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80',
-            'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80',
-        ]
-    },
-    'prop_algaria': {
-        id: 'prop_algaria',
-        name: 'Al Garia townhouse',
-        location: 'Sheikh Zayed',
-        description: `Enjoy a luxurious stay in this fully furnished townhouse with hotel-style finishing, located in the prestigious Al Garia compound. The unit offers privacy, comfort, and a stunning view, making it ideal for families and premium short- or long-term stays.
-
-Unit Features:
-• 4 spacious bedrooms
-• 3 modern bathrooms
-• Nanny’s room with a private bathroom
-• Private swimming pool
-• Elegant reception area with a stylish design
-• Fully equipped modern kitchen
-
-This townhouse is thoughtfully designed and furnished to high standards, providing a refined hospitality experience that combines luxury and comfort. Its prime location within Al Garia ensures a peaceful atmosphere with easy access to essential services. An ideal home for those seeking privacy, elegance, and an exceptional living experience.`,
-        pricePerNight: 450,
-        amenities: [
-            { name: 'Private Pool', icon: Waves },
-            { name: 'Hotel-Style Finish', icon: Award },
-            { name: 'Nanny Room + Bath', icon: Users },
-            { name: 'Modern Kitchen', icon: Coffee },
-            { name: 'Elegant Reception', icon: Crown },
-            { name: 'Gated Security', icon: ShieldCheck },
-        ],
-        details: [
-            { name: '8 guests', icon: Users },
-            { name: '4 bedrooms', icon: Bed },
-            { name: '3 baths', icon: Bath },
-        ],
-        images: [
-            '/تاون هاوس الجريا (1).jpeg',
-            '/تاون هاوس الجريا (2).jpeg',
-            '/تاون هاوس الجريا (3).jpeg',
-            '/تاون هاوس الجريا (4).jpeg',
-            '/تاون هاوس الجريا (5).jpeg',
-            '/تاون هاوس الجريا (6).jpeg',
-            '/تاون هاوس الجريا (7).jpeg',
-            '/تاون هاوس الجريا (8).jpeg',
-            '/تاون هاوس الجريا (9).jpeg',
-            '/تاون هاوس الجريا (10).jpeg',
-            '/تاون هاوس الجريا (11).jpeg',
-            '/تاون هاوس الجريا (12).jpeg',
-            '/تاون هاوس الجريا (13).jpeg',
-            '/تاون هاوس الجريا (14).jpeg',
-            '/تاون هاوس الجريا (15).jpeg',
-            '/تاون هاوس الجريا (16).jpeg',
-            '/تاون هاوس الجريا (17).jpeg',
-            '/تاون هاوس الجريا (18).jpeg',
-            '/تاون هاوس الجريا (19).jpeg',
-            '/تاون هاوس الجريا (20).jpeg',
-            '/تاون هاوس الجريا (21).jpeg',
-            '/تاون هاوس الجريا (22).jpeg',
-            '/تاون هاوس الجريا (23).jpeg',
-            '/تاون هاوس الجريا (24).jpeg',
-            '/تاون هاوس الجريا (25).jpeg',
-            '/تاون هاوس الجريا (26).jpeg',
-            '/تاون هاوس الجريا (27).jpeg',
-            '/تاون هاوس الجريا (28).jpeg',
-            '/تاون هاوس الجريا (29).jpeg',
-        ],
-        video: '/تاون هاوس الجريا (1).mp4'
-    }
-}
-
-export async function generateStaticParams() {
-    return Object.keys(PROPERTIES_DATA).map(id => ({ id }))
+const AMENITY_ICONS: Record<string, any> = {
+    'Wifi': Wifi,
+    'Air Conditioning': Wind,
+    'Security': ShieldCheck,
+    'Coffee Machine': Coffee,
+    'Private Pool': Waves,
+    'Pool': Waves,
+    'Garden': Crown,
+    'Gym': Award,
+    'Parking': ShieldCheck
 }
 
 export default async function PropertyPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params
-    const property = PROPERTIES_DATA[id] || PROPERTIES_DATA['prop_1']
+
+    // Fetch property from Supabase
+    const { data: property, error } = await supabase
+        .from('properties')
+        .select('*')
+        .eq('id', id)
+        .single()
+
+    if (error || !property) {
+        return notFound()
+    }
+
+    // Map string amenities to icons
+    const amenities = property.amenities.map((name: string) => ({
+        name,
+        icon: AMENITY_ICONS[name] || Sparkles
+    }))
+
+    // Map technical details
+    const details = [
+        { name: `${property.max_guests || 0} guests`, icon: Users },
+        { name: `${property.bedrooms || 0} bedrooms`, icon: Bed },
+        { name: `${property.bathrooms || 0} baths`, icon: Bath },
+    ]
 
     return (
         <div className="bg-white min-h-screen">
@@ -258,7 +79,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                     </div>
 
                     <div className="hidden lg:flex items-center gap-12 pb-6 border-b border-stone-100">
-                        {property.details.map((detail: any, idx: number) => (
+                        {details.map((detail: any, idx: number) => (
                             <div key={idx} className="flex flex-col gap-2">
                                 <detail.icon className="w-5 h-5 text-stone-900" />
                                 <span className="text-[10px] uppercase font-bold tracking-[0.3em] text-stone-400">{detail.name}</span>
@@ -273,7 +94,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                 <div className="grid grid-cols-12 gap-6 h-[80vh]">
                     <div className="col-span-12 lg:col-span-8 relative rounded-sm overflow-hidden group">
                         <Image
-                            src={property.images[0]}
+                            src={property.images[0] || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80'}
                             alt={property.name}
                             fill
                             className="object-cover transition-transform duration-[3s] group-hover:scale-110"
@@ -283,40 +104,18 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                     </div>
                     <div className="hidden lg:grid col-span-4 grid-rows-2 gap-6">
                         <div className="relative rounded-sm overflow-hidden group">
-                            <Image src={property.images[1]} alt="Interior" fill className="object-cover transition-transform duration-[2s] group-hover:scale-110" />
+                            <Image src={property.images[1] || property.images[0]} alt="Interior" fill className="object-cover transition-transform duration-[2s] group-hover:scale-110" />
                         </div>
                         <div className="relative rounded-sm overflow-hidden group bg-stone-900 flex items-center justify-center">
-                            <Image src={property.images[2]} alt="Details" fill className="object-cover opacity-50 transition-transform duration-[2s] group-hover:scale-110" />
+                            <Image src={property.images[2] || property.images[0]} alt="Details" fill className="object-cover opacity-50 transition-transform duration-[2s] group-hover:scale-110" />
                             <div className="relative z-10 text-center space-y-4">
                                 <Maximize2 className="w-8 h-8 text-white mx-auto" />
-                                <p className="text-white text-[10px] font-bold uppercase tracking-widest">Explore all {property.images.length} Media</p>
+                                <p className="text-white text-[10px] font-bold uppercase tracking-widest">Explore all {property.images?.length || 0} Media</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-
-            {/* Cinematic Video Experience */}
-            {property.video && (
-                <section className="px-6 lg:px-16 py-8 max-w-[1800px] mx-auto">
-                    <div className="relative aspect-video rounded-sm overflow-hidden bg-stone-900 group">
-                        <video
-                            src={property.video}
-                            autoPlay
-                            muted
-                            loop
-                            playsInline
-                            className="w-full h-full object-cover brightness-[0.7] group-hover:brightness-[0.8] transition-all duration-700"
-                        />
-                        <div className="absolute inset-0 flex flex-col items-center justify-center text-center space-y-6">
-                            <span className="text-white/40 text-[10px] font-bold uppercase tracking-[0.6em]">Cinematic Tour</span>
-                            <h2 className={`${playfair.className} text-4xl md:text-6xl text-white font-medium tracking-tighter`}>
-                                Experience the <br /> <span className="italic font-light">Atmosphere.</span>
-                            </h2>
-                        </div>
-                    </div>
-                </section>
-            )}
 
             {/* Expanded Gallery */}
             <section className="py-32 bg-stone-50 overflow-hidden">
@@ -328,7 +127,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                 </div>
 
                 <div className="flex gap-8 overflow-x-auto px-6 lg:px-16 no-scrollbar pb-12 cursor-grab active:cursor-grabbing">
-                    {property.images.map((img: string, idx: number) => (
+                    {property.images?.map((img: string, idx: number) => (
                         <div key={idx} className="flex-shrink-0 w-[400px] aspect-[4/5] relative rounded-sm overflow-hidden shadow-2xl shadow-stone-200/50">
                             <Image
                                 src={img}
@@ -360,7 +159,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
-                            {property.amenities.map((amenity: any, idx: number) => (
+                            {amenities.map((amenity: any, idx: number) => (
                                 <div key={idx} className="flex gap-8 group">
                                     <div className="flex-shrink-0 w-16 h-16 rounded-sm bg-stone-50 border border-stone-100 flex items-center justify-center group-hover:bg-stone-900 group-hover:text-white transition-all duration-500">
                                         <amenity.icon className="w-6 h-6" />
@@ -390,7 +189,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
 
                 {/* Sidebar Widget */}
                 <aside className="lg:col-span-5 relative">
-                    <BookingWidget pricePerNight={property.pricePerNight} />
+                    <BookingWidget pricePerNight={property.price_per_night || 0} />
                 </aside>
             </section>
         </div>

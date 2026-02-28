@@ -4,7 +4,8 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Playfair_Display } from 'next/font/google'
+import { Playfair_Display } from "next/font/google";
+
 import {
     History,
     Target,
@@ -32,7 +33,7 @@ export default function AboutPage() {
                 >
                     <Image
                         src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2400&q=95"
-                        alt="About West Capital"
+                        alt="About WECAP"
                         fill
                         className="object-cover brightness-[0.5] contrast-[1.1]"
                         priority
@@ -197,7 +198,7 @@ export default function AboutPage() {
                 <div className="absolute inset-0 z-0">
                     <Image
                         src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=2400"
-                        alt="The West Capital Standard"
+                        alt="The WECAP Standard"
                         fill
                         className="object-cover brightness-50"
                     />

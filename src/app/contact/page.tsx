@@ -1,6 +1,7 @@
 'use client'
 
-import { Playfair_Display } from 'next/font/google'
+import { Playfair_Display } from "next/font/google";
+
 import { motion } from 'framer-motion'
 import { Mail, Phone, MapPin, Send, Instagram, Linkedin, MessageSquare } from 'lucide-react'
 

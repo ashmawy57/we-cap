@@ -15,7 +15,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "West Capital | Luxury Home Rentals & class A Apartments",
+  title: "WECAP | Luxury Home Rentals & class A Apartments",
   description: "Experience the pinnacle of class A luxury living in Sheikh Zayed, 6th of October, and New Cairo.",
 };
 

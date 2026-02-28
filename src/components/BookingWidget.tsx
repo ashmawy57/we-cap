@@ -30,7 +30,8 @@ import {
 import CheckoutModal from './CheckoutModal'
 import { DateRange } from 'react-day-picker'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Playfair_Display } from 'next/font/google'
+import { Playfair_Display } from "next/font/google";
+
 
 const playfair = Playfair_Display({ subsets: ['latin'] })
 

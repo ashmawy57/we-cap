@@ -22,7 +22,8 @@ import {
 import { bookingSchema, BookingFormValues } from '@/lib/validations/booking'
 import { Loader2, ShieldCheck, CheckCircle2, Crown, Sparkles } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Playfair_Display } from 'next/font/google'
+import { Playfair_Display } from "next/font/google";
+
 
 const playfair = Playfair_Display({ subsets: ['latin'] })
 
@@ -146,7 +147,7 @@ export default function CheckoutModal({ isOpen, onClose, bookingDetails }: Check
                                 <div className="flex items-center gap-4 p-5 bg-stone-50 rounded-sm border border-stone-100">
                                     <ShieldCheck className="w-5 h-5 text-stone-900" />
                                     <p className="text-[10px] text-stone-500 leading-relaxed font-medium uppercase tracking-widest">
-                                        Reservation governed by West Capital <span className="text-stone-900">Class A Protocols</span>. No immediate billing.
+                                        Reservation governed by WECAP <span className="text-stone-900">Class A Protocols</span>. No immediate billing.
                                     </p>
                                 </div>
 
@@ -199,7 +200,7 @@ export default function CheckoutModal({ isOpen, onClose, bookingDetails }: Check
                             </div>
 
                             <div className="w-full pt-10 border-t border-stone-100">
-                                <p className="text-[10px] text-stone-400 uppercase font-bold tracking-[0.3em] mb-6">Reservation Reference: WC-2026-XQ9</p>
+                                <p className="text-[10px] text-stone-400 uppercase font-bold tracking-[0.3em] mb-6">Reservation Reference: WECAP-2026-XQ9</p>
                                 <Button
                                     onClick={handleClose}
                                     className="w-full h-16 bg-stone-100 text-stone-900 font-bold uppercase tracking-widest text-[10px] hover:bg-stone-200 transition-all rounded-sm"

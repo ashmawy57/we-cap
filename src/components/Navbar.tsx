@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Playfair_Display } from 'next/font/google'
+import { Playfair_Display } from "next/font/google";
+
 import { Menu, X, Search, Globe, Instagram, Linkedin, ArrowRight } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
@@ -14,6 +15,9 @@ export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false)
     const [isScrolled, setIsScrolled] = useState(false)
     const pathname = usePathname()
+
+    // Hide Navbar on admin routes
+    if (pathname?.startsWith('/admin')) return null
 
     // Lock body scroll
     useEffect(() => {
@@ -31,7 +35,7 @@ export default function Navbar() {
         { name: 'The Collection', href: '/portfolio', subtitle: "Explore Egypt's finest assets" },
         { name: 'Exclusive Locations', href: '/locations', subtitle: 'Zayed, New Cairo & Beyond' },
         { name: 'Private Concierge', href: '/contact', subtitle: 'Your 24/7 Lifestyle Manager' },
-        { name: 'About the Capital', href: '/about', subtitle: 'Our Heritage & Standards' },
+        { name: 'About WECAP', href: '/about', subtitle: 'Our Heritage & Standards' },
     ]
 
     return (
@@ -54,7 +58,7 @@ export default function Navbar() {
                             } ${!isScrolled && pathname === '/' ? 'brightness-0 invert' : ''}`}>
                             <Image
                                 src="/logoheader.png"
-                                alt="West Capital Logo"
+                                alt="WECAP Logo"
                                 fill
                                 className="object-contain object-left"
                                 priority
@@ -115,7 +119,7 @@ export default function Navbar() {
                             <div className="relative h-[20vw] w-[60vw] max-h-[200px] max-w-[600px] brightness-0 invert select-none opacity-20">
                                 <Image
                                     src="/logoheader.png"
-                                    alt="West Capital Logo"
+                                    alt="WECAP Logo"
                                     fill
                                     className="object-contain"
                                 />
@@ -127,7 +131,7 @@ export default function Navbar() {
                             <Link href="/" onClick={() => setIsOpen(false)} className="relative h-24 w-64 md:h-32 md:w-96 brightness-0 invert">
                                 <Image
                                     src="/logoheader.png"
-                                    alt="West Capital Logo"
+                                    alt="WECAP Logo"
                                     fill
                                     className="object-contain object-left"
                                 />
@@ -204,7 +208,7 @@ export default function Navbar() {
 
                         {/* Footer in Menu */}
                         <footer className="px-6 lg:px-16 py-10 flex flex-col md:flex-row justify-between items-center border-t border-white/5 gap-6">
-                            <p className="text-[9px] font-bold uppercase tracking-[0.4em] text-stone-700">© 2026 West Capital &middot; Signature Real Estate</p>
+                            <p className="text-[9px] font-bold uppercase tracking-[0.4em] text-stone-700">© 2026 WECAP &middot; Signature Real Estate</p>
                             <div className="flex gap-8">
                                 <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-stone-700 hover:text-white transition-colors cursor-pointer">Privacy</span>
                                 <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-stone-700 hover:text-white transition-colors cursor-pointer">Terms</span>
