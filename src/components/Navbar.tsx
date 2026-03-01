@@ -53,8 +53,8 @@ export default function Navbar() {
                         className="relative z-[110] transition-all duration-500"
                     >
                         <div className={`relative transition-all duration-700 ease-in-out ${isScrolled
-                            ? 'h-16 w-48 md:h-20 md:w-64'
-                            : 'h-24 w-64 md:h-32 md:w-96'
+                            ? 'h-12 w-36 md:h-20 md:w-64'
+                            : 'h-16 w-48 md:h-32 md:w-96'
                             } ${!isScrolled && pathname === '/' ? 'brightness-0 invert' : ''}`}>
                             <Image
                                 src="/logoheader.png"
@@ -128,7 +128,7 @@ export default function Navbar() {
 
                         {/* Header */}
                         <header className="px-6 lg:px-16 py-8 flex justify-between items-center relative z-10 w-full">
-                            <Link href="/" onClick={() => setIsOpen(false)} className="relative h-24 w-64 md:h-32 md:w-96 brightness-0 invert">
+                            <Link href="/" onClick={() => setIsOpen(false)} className="relative h-16 w-48 md:h-32 md:w-96 brightness-0 invert">
                                 <Image
                                     src="/logoheader.png"
                                     alt="WECAP Logo"
@@ -216,7 +216,7 @@ export default function Navbar() {
                         </footer>
                     </motion.div>
                 )}
-            </AnimatePresence>
+            </AnimatePresence >
         </>
     )
 }

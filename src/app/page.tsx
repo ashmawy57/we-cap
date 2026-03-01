@@ -158,10 +158,10 @@ export default function LandingPage() {
             Modern serviced apartments designed for comfort & style.
           </motion.p>
 
-          <div className="flex flex-col md:flex-row gap-12 justify-center items-center mb-24">
+          <div className="flex flex-col md:flex-row gap-8 md:gap-12 justify-center items-center mb-24">
             <Link
               href="/portfolio"
-              className="group relative px-16 py-8 bg-white text-stone-900 rounded-sm font-bold uppercase tracking-[0.3em] text-[11px] overflow-hidden transition-all hover:scale-105"
+              className="group relative px-10 py-5 w-auto text-center md:w-auto md:px-16 md:py-8 bg-white text-stone-900 rounded-sm font-bold uppercase tracking-[0.2em] md:tracking-[0.3em] text-[10px] md:text-[11px] overflow-hidden transition-all hover:scale-105"
             >
               <span className="relative z-10">Discover Collection</span>
               <div className="absolute inset-0 bg-stone-100 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
