@@ -33,6 +33,7 @@ interface CheckoutModalProps {
     bookingDetails: {
         nights: number
         totalPrice: number
+        propertyName?: string
         startDate?: Date
         endDate?: Date
     }
@@ -58,10 +59,31 @@ export default function CheckoutModal({ isOpen, onClose, bookingDetails }: Check
     })
 
     const onSubmit = async (data: BookingFormValues) => {
-        // Simulate luxury API processing
-        await new Promise(resolve => setTimeout(resolve, 2500))
-        console.log('Class A Reservation Request:', { ...data, ...bookingDetails })
-        setStep('success')
+        // Simulate luxury processing delay
+        await new Promise(resolve => setTimeout(resolve, 1000))
+
+        // Replace this with your actual WhatsApp number (include country code, without + or 00)
+        const companyPhone = "201023323000";
+
+        const message = `*طلب حجز جديد (Class A Reservation)* 👑
+------------------------
+*اسم العميل:* ${data.fullName}
+*رقم الهاتف:* ${data.countryCode}${data.phone}
+*البريد الإلكتروني:* ${data.email}
+------------------------
+*تفاصيل الحجز:*
+*اسم العقار:* ${bookingDetails.propertyName || 'غير محدد'}
+*الرابط:* ${window.location.href}
+*عدد الليالي:* ${bookingDetails.nights}
+*الإجمالي:* ${bookingDetails.totalPrice} جنيه`;
+
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappUrl = `https://wa.me/${companyPhone}?text=${encodedMessage}`;
+
+        setStep('success');
+
+        // Open WhatsApp in a new tab
+        window.open(whatsappUrl, '_blank');
     }
 
     const handleClose = () => {

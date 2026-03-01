@@ -3,9 +3,11 @@
 import { Playfair_Display } from "next/font/google";
 
 import Image from 'next/image'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ArrowRight, MapPin, Building2, Trees, Shield } from 'lucide-react'
+import { supabase } from '@/lib/supabase'
 
 const playfair = Playfair_Display({ subsets: ['latin'] })
 
@@ -19,7 +21,7 @@ const locations = [
             { icon: Shield, text: 'Maximum Security' },
             { icon: Building2, text: 'Modern Architecture' }
         ],
-        image: 'https://images.unsplash.com/photo-1590059132213-f91590dfef.jpeg?auto=format&fit=crop&w=1200',
+        image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200',
         propertyCount: 64,
     },
     {
@@ -35,36 +37,79 @@ const locations = [
         propertyCount: 42,
     },
     {
-        id: '6th-october',
-        name: '6th of October',
-        description: 'A legacy of space and privacy. The 6th of October city represents a more established luxury, with larger estates, sprawling gardens, and a focus on tranquility. Home to Palm Hills and Dreamland.',
+        id: 'down-town',
+        name: 'Down Town',
+        description: 'The vibrant historic and cultural center of the city, combining classic architecture with modern renovations and buzzing streets.',
         characteristics: [
-            { icon: Trees, text: 'Sprawling Estates' },
-            { icon: Shield, text: 'Quiet Enclaves' },
-            { icon: Building2, text: 'Established Prestige' }
+            { icon: Building2, text: 'Classic Charm' },
+            { icon: Shield, text: 'Urban Energy' },
+            { icon: Trees, text: 'Cultural Hotspots' }
         ],
-        image: 'https://images.unsplash.com/photo-1600585154526-990dcea4db0d?auto=format&fit=crop&w=1200',
-        propertyCount: 28,
+        image: 'https://images.unsplash.com/photo-1572252009286-268acec5ca0a?auto=format&fit=crop&w=1200',
+        propertyCount: 35,
+    },
+    {
+        id: 'north-coast',
+        name: 'North Coast',
+        description: 'The premier summer destination in Egypt, offering pristine beaches, luxury resorts, and high-end waterfront living.',
+        characteristics: [
+            { icon: Trees, text: 'Beachfront Access' },
+            { icon: Shield, text: 'Exclusive Resorts' },
+            { icon: Building2, text: 'Summer Retreats' }
+        ],
+        image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200',
+        propertyCount: 50,
+    },
+    {
+        id: 'red-sea',
+        name: 'Red Sea',
+        description: 'A paradise for sea lovers and divers, featuring world-class marinas, stunning coral reefs, and year-round sunshine.',
+        characteristics: [
+            { icon: Trees, text: 'Marine Life' },
+            { icon: Shield, text: 'Luxury Marinas' },
+            { icon: Building2, text: 'Coastal Serenity' }
+        ],
+        image: 'https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=1200',
+        propertyCount: 45,
     }
 ]
 
 export default function LocationsPage() {
+    const [counts, setCounts] = useState<Record<string, number>>({})
+
+    useEffect(() => {
+        async function fetchCounts() {
+            const { data, error } = await supabase
+                .from('properties')
+                .select('location')
+
+            if (data && !error) {
+                const newCounts: Record<string, number> = {}
+                data.forEach((prop: any) => {
+                    if (prop.location) {
+                        const normalizedKey = prop.location.replace(/_/g, ' ').toLowerCase().trim()
+                        newCounts[normalizedKey] = (newCounts[normalizedKey] || 0) + 1
+                    }
+                })
+                setCounts(newCounts)
+            }
+        }
+        fetchCounts()
+    }, [])
+
     return (
-        <main className="min-h-screen bg-stone-50 pt-32 pb-24">
+        <main className="min-h-screen bg-stone-50 pt-48 pb-24">
             {/* Intro Header */}
             <section className="px-6 lg:px-12 mb-24 max-w-[1800px] mx-auto text-center">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="max-w-3xl mx-auto"
+                    className="max-w-5xl mx-auto"
                 >
                     <span className="text-stone-400 text-xs font-bold uppercase tracking-[0.4em] mb-4 block text-center">Exclusive Territories</span>
-                    <h1 className={`${playfair.className} text-5xl md:text-7xl font-semibold text-stone-900 leading-tight mb-8`}>
+                    <h1 className={`${playfair.className} text-5xl md:text-7xl font-semibold text-stone-900 leading-tight mb-8 md:whitespace-nowrap`}>
                         Egypt's Most <span className="italic font-light">Coveted Districts.</span>
                     </h1>
-                    <p className="text-stone-500 font-light text-lg leading-relaxed">
-                        From the lush gardens of Zayed to the vibrant pulse of New Cairo, we only operate where excellence is the minimum standard.
-                    </p>
                 </motion.div>
             </section>
 
@@ -88,7 +133,7 @@ export default function LocationsPage() {
                                     className="object-cover transition-transform duration-[3s] hover:scale-105"
                                 />
                                 <div className="absolute top-8 left-8 bg-stone-900/40 backdrop-blur-md px-6 py-3 rounded-full border border-white/20 text-white flex items-center gap-2">
-                                    <span className="text-xs font-bold uppercase tracking-widest">{loc.propertyCount} Properties</span>
+                                    <span className="text-xs font-bold uppercase tracking-widest">{counts[loc.name.toLowerCase().trim()] || 0} Properties</span>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +162,7 @@ export default function LocationsPage() {
                                 href={`/portfolio?location=${loc.name}`}
                                 className="group inline-flex items-center gap-4 px-10 py-5 bg-stone-900 text-white rounded-full font-bold uppercase tracking-widest text-[10px] hover:bg-stone-800 transition-all hover:scale-105"
                             >
-                                Explore Zayed Collection <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                Explore {loc.name} Collection <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>
                     </motion.div>

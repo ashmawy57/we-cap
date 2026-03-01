@@ -37,10 +37,11 @@ const playfair = Playfair_Display({ subsets: ['latin'] })
 
 interface BookingWidgetProps {
     pricePerNight: number
+    propertyName?: string
     currency?: string
 }
 
-export default function BookingWidget({ pricePerNight, currency = 'EGP' }: BookingWidgetProps) {
+export default function BookingWidget({ pricePerNight, propertyName, currency = 'EGP' }: BookingWidgetProps) {
     const [date, setDate] = useState<DateRange | undefined>({
         from: undefined,
         to: undefined,
@@ -265,6 +266,7 @@ export default function BookingWidget({ pricePerNight, currency = 'EGP' }: Booki
                 bookingDetails={{
                     nights,
                     totalPrice,
+                    propertyName,
                     startDate: date?.from,
                     endDate: date?.to
                 }}

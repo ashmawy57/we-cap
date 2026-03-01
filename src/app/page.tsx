@@ -39,7 +39,7 @@ export default function LandingPage() {
   })
   const [activeDropdown, setActiveDropdown] = useState<'location' | 'guests' | null>(null)
 
-  const locations = ["Sheikh Zayed", "6th of October", "New Cairo", "North Coast"]
+  const locations = ["Sheikh Zayed", "Down Town", "New Cairo", "North Coast", "Red Sea"]
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -86,16 +86,18 @@ export default function LandingPage() {
     <div ref={containerRef} className="bg-white selection:bg-stone-900 selection:text-white overflow-x-hidden">
 
       {/* --- CINEMATIC FULLSCREEN HERO --- */}
-      <section className="relative min-h-[130vh] flex items-start justify-center overflow-hidden pt-32 md:pt-40 pb-32">
-        <motion.div style={{ scale: heroScale }} className="absolute inset-0 z-0">
-          <Image
-            src="/herosection.png"
-            alt="Luxury Architecture"
-            fill
-            className="object-cover brightness-[0.6] contrast-[1.1]"
-            priority
-          />
-        </motion.div>
+      <section className="relative min-h-[130vh] flex items-start justify-center pt-32 md:pt-40 pb-32 z-20">
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <motion.div style={{ scale: heroScale }} className="absolute inset-0 w-full h-full">
+            <Image
+              src="/herosection.png"
+              alt="Luxury Architecture"
+              fill
+              className="object-cover brightness-[0.6] contrast-[1.1]"
+              priority
+            />
+          </motion.div>
+        </div>
 
         {/* Floating Accent Text */}
         <div className="absolute top-1/2 left-10 -translate-y-1/2 hidden xl:block">
@@ -175,6 +177,14 @@ export default function LandingPage() {
             </div>
           </div>
 
+          {/* Dismiss Dropdown Overlay */}
+          {activeDropdown && (
+            <div
+              className="fixed inset-0 z-40"
+              onClick={() => setActiveDropdown(null)}
+            />
+          )}
+
           {/* --- PREMIUM SEARCH BAR --- */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -182,7 +192,7 @@ export default function LandingPage() {
             transition={{ delay: 2.5, duration: 1 }}
             className="w-full max-w-6xl mx-auto relative z-50 px-4 sm:px-6"
           >
-            <div className="bg-white/95 backdrop-blur-3xl rounded-[2rem] md:rounded-[4rem] shadow-2xl p-2 md:p-3 flex flex-col md:flex-row items-stretch justify-between border border-white/40 overflow-hidden">
+            <div className="bg-white/95 backdrop-blur-3xl rounded-[2rem] md:rounded-[4rem] shadow-2xl p-2 md:p-3 flex flex-col md:flex-row items-stretch justify-between border border-white/40 relative">
 
               {/* Location */}
               <div
@@ -343,11 +353,11 @@ export default function LandingPage() {
 
           <div className="flex overflow-x-auto lg:grid lg:grid-cols-5 gap-3 md:gap-8 mb-20 snap-x snap-mandatory scrollbar-hide -mx-6 px-6 lg:mx-0 lg:px-0 pb-10 lg:pb-0">
             {[
-              { name: "Sheikh Zayed", image: "/sheikh zayed.jpg", fullName: "Sheikh Zayed City" },
-              { name: "New Cairo", image: "/new cairo.webp", fullName: "New Cairo District" },
+              { name: "Sheikh Zayed", image: "/sheikh zayed.jpg", fullName: "Sheikh Zayed" },
+              { name: "New Cairo", image: "/new cairo.webp", fullName: "New Cairo" },
               { name: "Down Town", image: "/down town.webp", fullName: "Cairo Downtown" },
-              { name: "North Coast", image: "/north coast.jpg", fullName: "North Coast Resorts" },
-              { name: "Red Sea", image: "/red sea.jpg", fullName: "Red Sea Destinations" },
+              { name: "North Coast", image: "/north coast.jpg", fullName: "North Coast" },
+              { name: "Red Sea", image: "/red sea.jpg", fullName: "Red Sea" },
             ].map((dest, i) => {
               const countKey = dest.name.toUpperCase().replace(' ', '_')
               const count = countsByLocation[countKey] || 0

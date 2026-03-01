@@ -8,8 +8,23 @@ import { Mail, Phone, MapPin, Send, Instagram, Linkedin, MessageSquare } from 'l
 const playfair = Playfair_Display({ subsets: ['latin'] })
 
 export default function ContactPage() {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const name = formData.get('name') || '';
+        const email = formData.get('email') || '';
+        const phone = formData.get('phone') || '';
+        const interest = formData.get('interest') || '';
+        const message = formData.get('message') || '';
+
+        const subject = encodeURIComponent(`General Enquiry from ${name}`);
+        const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nInterest: ${interest}\n\nMessage:\n${message}`);
+
+        window.location.href = `mailto:wecap.egy@gmail.com?subject=${subject}&body=${body}`;
+    };
+
     return (
-        <main className="min-h-screen bg-white pt-32 pb-24">
+        <main className="min-h-screen bg-white pt-48 pb-24">
             <section className="px-6 lg:px-12 max-w-[1800px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
 
                 {/* Left Side: Info */}
@@ -18,7 +33,7 @@ export default function ContactPage() {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                     >
-                        <span className="text-stone-400 text-xs font-bold uppercase tracking-[0.4em] mb-4 block">Personalized Concierge</span>
+                        <span className="text-stone-400 text-xs font-bold uppercase tracking-[0.4em] mb-4 block">Contact Us</span>
                         <h1 className={`${playfair.className} text-5xl md:text-8xl font-semibold text-stone-900 leading-tight mb-8`}>
                             How can we <br /><span className="italic font-light">assist you?</span>
                         </h1>
@@ -33,8 +48,8 @@ export default function ContactPage() {
                                 <Phone className="w-5 h-5" />
                                 <span className="font-bold uppercase tracking-widest text-[10px]">Private Line</span>
                             </div>
-                            <p className="text-stone-600 font-medium">+20 100 234 5678</p>
-                            <p className="text-stone-400 text-xs">Available 24/7 for Class A clients</p>
+                            <p className="text-stone-600 font-medium">+20 102 332 3000</p>
+                            <p className="text-stone-400 text-xs">Available for Class A clients</p>
                         </div>
 
                         <div className="space-y-4">
@@ -42,7 +57,7 @@ export default function ContactPage() {
                                 <Mail className="w-5 h-5" />
                                 <span className="font-bold uppercase tracking-widest text-[10px]">Digital Enquiries</span>
                             </div>
-                            <p className="text-stone-600 font-medium font-inter">concierge@west-capital.com</p>
+                            <p className="text-stone-600 font-medium font-inter">wecap.egy@gmail.com</p>
                             <p className="text-stone-400 text-xs">We respond within 2 hours</p>
                         </div>
 
@@ -51,7 +66,7 @@ export default function ContactPage() {
                                 <MapPin className="w-5 h-5" />
                                 <span className="font-bold uppercase tracking-widest text-[10px]">The Hub</span>
                             </div>
-                            <p className="text-stone-600 font-medium">Allegria, Sodic West, Sheikh Zayed</p>
+                            <p className="text-stone-600 font-medium">Building 42, Allegria Hub, Sodic West, Sheikh Zayed, Giza</p>
                             <p className="text-stone-400 text-xs">Private meetings by appointment only</p>
                         </div>
 
@@ -60,7 +75,7 @@ export default function ContactPage() {
                                 <MessageSquare className="w-5 h-5" />
                                 <span className="font-bold uppercase tracking-widest text-[10px]">WhatsApp</span>
                             </div>
-                            <p className="text-stone-600 font-medium">+20 100 987 6543</p>
+                            <p className="text-stone-600 font-medium">+20 102 332 3000</p>
                             <p className="text-stone-400 text-xs">Direct chat for rapid assistance</p>
                         </div>
                     </div>
@@ -86,26 +101,26 @@ export default function ContactPage() {
                 >
                     <h3 className={`${playfair.className} text-3xl font-semibold mb-12`}>General Enquiry</h3>
 
-                    <form className="space-y-10">
+                    <form onSubmit={handleSubmit} className="space-y-10">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                             <div className="space-y-2 border-b border-stone-200 pb-2 focus-within:border-stone-900 transition-colors">
                                 <label className="text-[10px] uppercase font-bold tracking-[0.2em] text-stone-400">Full Name</label>
-                                <input type="text" placeholder="Johnathan Doe" className="w-full bg-transparent outline-none py-2 text-stone-900 font-medium placeholder:text-stone-200" />
+                                <input name="name" required type="text" placeholder="Johnathan Doe" className="w-full bg-transparent outline-none py-2 text-stone-900 font-medium placeholder:text-stone-200" />
                             </div>
                             <div className="space-y-2 border-b border-stone-200 pb-2 focus-within:border-stone-900 transition-colors">
                                 <label className="text-[10px] uppercase font-bold tracking-[0.2em] text-stone-400">Email Address</label>
-                                <input type="email" placeholder="john@example.com" className="w-full bg-transparent outline-none py-2 text-stone-900 font-medium placeholder:text-stone-200" />
+                                <input name="email" required type="email" placeholder="john@example.com" className="w-full bg-transparent outline-none py-2 text-stone-900 font-medium placeholder:text-stone-200" />
                             </div>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                             <div className="space-y-2 border-b border-stone-200 pb-2 focus-within:border-stone-900 transition-colors">
                                 <label className="text-[10px] uppercase font-bold tracking-[0.2em] text-stone-400">Phone</label>
-                                <input type="tel" placeholder="+20 000 000 000" className="w-full bg-transparent outline-none py-2 text-stone-900 font-medium placeholder:text-stone-200" />
+                                <input name="phone" required type="tel" placeholder="+20 000 000 000" className="w-full bg-transparent outline-none py-2 text-stone-900 font-medium placeholder:text-stone-200" />
                             </div>
                             <div className="space-y-2 border-b border-stone-200 pb-2 focus-within:border-stone-900 transition-colors">
                                 <label className="text-[10px] uppercase font-bold tracking-[0.2em] text-stone-400">Interest</label>
-                                <select className="w-full bg-transparent outline-none py-2 text-stone-900 font-medium appearance-none cursor-pointer">
+                                <select name="interest" className="w-full bg-transparent outline-none py-2 text-stone-900 font-medium appearance-none cursor-pointer">
                                     <option>Short Term Rental</option>
                                     <option>Long Term Residence</option>
                                     <option>Property Management</option>
@@ -116,7 +131,7 @@ export default function ContactPage() {
 
                         <div className="space-y-2 border-b border-stone-200 pb-2 focus-within:border-stone-900 transition-colors">
                             <label className="text-[10px] uppercase font-bold tracking-[0.2em] text-stone-400">Message</label>
-                            <textarea rows={4} placeholder="How can we help you?" className="w-full bg-transparent outline-none py-2 text-stone-900 font-medium placeholder:text-stone-200 resize-none" />
+                            <textarea name="message" required rows={4} placeholder="How can we help you?" className="w-full bg-transparent outline-none py-2 text-stone-900 font-medium placeholder:text-stone-200 resize-none" />
                         </div>
 
                         <button className="group relative flex items-center justify-center gap-4 w-full py-8 bg-stone-900 text-white font-bold uppercase tracking-[0.3em] text-[11px] overflow-hidden hover:bg-stone-800 transition-all">

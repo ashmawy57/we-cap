@@ -24,7 +24,7 @@ export default function AboutPage() {
         <div className="bg-white selection:bg-stone-900 selection:text-white overflow-x-hidden">
 
             {/* --- EDITORIAL HERO --- */}
-            <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+            <section className="relative min-h-[70vh] flex flex-col items-center justify-start pt-48 overflow-hidden">
                 <motion.div
                     initial={{ scale: 1.1 }}
                     animate={{ scale: 1 }}
@@ -75,8 +75,8 @@ export default function AboutPage() {
                             className="relative aspect-[4/5] rounded-sm overflow-hidden shadow-2xl"
                         >
                             <Image
-                                src="https://images.unsplash.com/photo-1628744448840-55bdb2497bd4?auto=format&fit=crop&w=1200"
-                                alt="Architecture and Culture"
+                                src="/who we are (2).png"
+                                alt="Who We Are"
                                 fill
                                 className="object-cover"
                             />
@@ -105,14 +105,18 @@ export default function AboutPage() {
 
                         <div className="space-y-8 text-stone-500 text-lg font-light leading-relaxed">
                             <p>
-                                We are a company established in 2015, specializing in property management and providing integrated accommodation solutions. Over the past decade, we have evolved from a boutique agency into a premier residential management firm for the Class A elite.
+                                Founded in 2015, we are a hospitality-driven company built on one simple belief: every guest deserves to feel at home. From day one, our focus has been on delivering exceptional hospitality services that combine professionalism, comfort, and attention to detail. We are passionate about creating seamless experiences where quality meets warmth.
                             </p>
-                            <p>
-                                Through our digital platform, we offer our clients fully furnished hotel units that meet the needs of both short-term and long-term stays, ensuring a comfortable and exceptional living experience that feels like a sanctuary, not just a service.
-                            </p>
-                            <p>
-                                Our mission is simple: to connect discerning travelers and long-term residents with the architectural legacy of modern Egypt, while providing the seamless infrastructure of a high-end concierge.
-                            </p>
+
+                            <div className="pt-4 border-t border-stone-100">
+                                <h3 className={`${playfair.className} text-3xl font-medium text-stone-900 mb-4`}>Our Vision</h3>
+                                <p>To become the leading hospitality platform, setting new standards in service excellence, innovation, and guest satisfaction.</p>
+                            </div>
+
+                            <div className="pt-4 border-t border-stone-100">
+                                <h3 className={`${playfair.className} text-3xl font-medium text-stone-900 mb-4`}>Our Mission</h3>
+                                <p>Our mission is to ensure that every guest feels welcomed, valued, and completely at ease — just like being at home. We are committed to delivering personalized service, maintaining high operational standards, and continuously improving the experience we offer.</p>
+                            </div>
                         </div>
 
                         <div className="pt-12 border-t border-stone-100 flex items-center gap-12">
@@ -218,19 +222,62 @@ export default function AboutPage() {
                             href="/contact"
                             className="px-16 py-6 border border-white/20 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/5 transition-all rounded-sm"
                         >
-                            Contact Concierge
+                            Contact Us
                         </Link>
                     </div>
                 </div>
             </section>
 
-            {/* --- REPUTATION BAR --- */}
-            <section className="py-24 border-b border-stone-100">
-                <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-20 items-center opacity-30">
-                    <span className={`${playfair.className} text-2xl font-black text-center`}>VOGUE</span>
-                    <span className={`${playfair.className} text-2xl font-black text-center`}>ARCH-DIGEST</span>
-                    <span className={`${playfair.className} text-2xl font-black text-center`}>FORBES</span>
-                    <span className={`${playfair.className} text-2xl font-black text-center`}>MANSION-GLOBAL</span>
+            {/* --- PREMIERE PARTNERS: THE TRUST MARQUEE --- */}
+            <section className="py-12 bg-stone-50/30 border-y border-stone-100 overflow-hidden relative">
+                {/* Cinematic Side Fades */}
+                <div className="absolute inset-y-0 left-0 w-32 md:w-64 bg-gradient-to-r from-stone-50/30 via-stone-50/10 to-transparent z-10 pointer-events-none" />
+                <div className="absolute inset-y-0 right-0 w-32 md:w-64 bg-gradient-to-l from-stone-50/30 via-stone-50/10 to-transparent z-10 pointer-events-none" />
+
+                <div className="flex whitespace-nowrap relative">
+                    <motion.div
+                        animate={{ x: ["0%", "-50%"] }}
+                        transition={{
+                            duration: 25,
+                            repeat: Infinity,
+                            ease: "linear"
+                        }}
+                        className="flex items-center gap-16 md:gap-24 pr-16 md:pr-24 shrink-0"
+                    >
+                        {[
+                            { name: "Sodic", src: "/sodic (1).png", h: "h-16 md:h-20" },
+                            { name: "Palm Hills", src: "/palm hills.png", h: "h-14 md:h-16" },
+                            { name: "Emaar", src: "/emaar.png", h: "h-16 md:h-20" },
+                            { name: "Dorra", src: "/dorra.png", h: "h-16 md:h-20" },
+                            { name: "Gates", src: "/gates.png", h: "h-16 md:h-20" },
+                            { name: "Marakez", src: "/marakez.png", h: "h-14 md:h-18" },
+                        ].map((logo, i) => (
+                            <motion.div
+                                key={`logo-1-${i}`}
+                                whileHover={{ scale: 1.1, opacity: 1 }}
+                                className={`relative ${logo.h} w-48 md:w-72 shrink-0 brightness-0 opacity-40 transition-all duration-500 cursor-pointer`}
+                            >
+                                <Image src={logo.src} alt={logo.name} fill className="object-contain" />
+                            </motion.div>
+                        ))}
+                        {/* Duplicated set for seamless loop */}
+                        {[
+                            { name: "Sodic", src: "/sodic (1).png", h: "h-16 md:h-20" },
+                            { name: "Palm Hills", src: "/palm hills.png", h: "h-14 md:h-16" },
+                            { name: "Emaar", src: "/emaar.png", h: "h-16 md:h-20" },
+                            { name: "Dorra", src: "/dorra.png", h: "h-12 md:h-20" },
+                            { name: "Gates", src: "/gates.png", h: "h-16 md:h-20" },
+                            { name: "Marakez", src: "/marakez.png", h: "h-14 md:h-18" },
+                        ].map((logo, i) => (
+                            <motion.div
+                                key={`logo-2-${i}`}
+                                whileHover={{ scale: 1.1, opacity: 1 }}
+                                className={`relative ${logo.h} w-48 md:w-72 shrink-0 brightness-0 opacity-40 transition-all duration-500 cursor-pointer`}
+                            >
+                                <Image src={logo.src} alt={logo.name} fill className="object-contain" />
+                            </motion.div>
+                        ))}
+                    </motion.div>
                 </div>
             </section>
 

@@ -85,32 +85,13 @@ export default function PortfolioPage() {
                             </div>
                         </motion.div>
 
-                        <motion.h1
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2, duration: 1 }}
-                            className={`${playfair.className} text-6xl md:text-[9vw] font-black text-stone-900 leading-[0.8] tracking-tighter`}
-                        >
-                            Curated <br /> <span className="italic font-light opacity-80">Sanctuaries.</span>
-                        </motion.h1>
                     </div>
-
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.5 }}
-                        className="flex flex-col items-end gap-4"
-                    >
-                        <p className="text-stone-400 text-sm max-w-xs text-right font-light leading-relaxed">
-                            Managing the most exclusive gated communities across Greater Cairo. Discrete. Verified. Elite.
-                        </p>
-                    </motion.div>
                 </div>
 
                 {/* --- PREMIUM FILTER BAR --- */}
                 <div className="relative sticky top-24 z-50 bg-white/80 backdrop-blur-2xl border-y border-stone-100 py-6 px-4 md:px-8 mb-20 flex flex-col md:flex-row justify-between items-center gap-8 shadow-[0_20px_40px_rgba(0,0,0,0.02)]">
                     <div className="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto">
-                        {['All', 'Sheikh Zayed', 'New Cairo', '6th of October'].map((loc) => (
+                        {['All', 'Sheikh Zayed', 'New Cairo', 'Down Town', 'North Coast', 'Red Sea'].map((loc) => (
                             <button
                                 key={loc}
                                 onClick={() => setActiveFilter(loc)}
@@ -127,20 +108,6 @@ export default function PortfolioPage() {
                                 </span>
                             </button>
                         ))}
-                    </div>
-
-                    <div className="flex items-center gap-8 w-full md:w-auto justify-between">
-                        <button
-                            onClick={() => setIsSearchOpen(!isSearchOpen)}
-                            className="flex items-center gap-3 text-stone-900 font-bold uppercase tracking-widest text-[9px] hover:text-sky-600 transition-colors"
-                        >
-                            <Search className="w-4 h-4" />
-                            <span className="hidden sm:inline">Search Assets</span>
-                        </button>
-                        <div className="h-6 w-[1px] bg-stone-100 hidden sm:block" />
-                        <p className="text-[9px] text-stone-300 font-bold uppercase tracking-[0.2em]">
-                            Sort by: <span className="text-stone-900">Highest Tier</span>
-                        </p>
                     </div>
                 </div>
             </section>
@@ -264,44 +231,7 @@ export default function PortfolioPage() {
                 )}
             </section>
 
-            {/* --- EXCLUSIVE CTA --- */}
-            <section className="mt-60 max-w-[1800px] mx-auto px-6 lg:px-16 mb-40">
-                <div className="relative h-[600px] rounded-sm overflow-hidden flex items-center justify-center text-center p-12">
-                    <Image
-                        src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2400&q=95"
-                        alt="Asset Procurement"
-                        fill
-                        className="object-cover brightness-[0.4]"
-                    />
-                    <div className="relative z-10 space-y-12 max-w-4xl">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            className="space-y-6"
-                        >
-                            <span className="text-sky-400 text-[10px] font-bold uppercase tracking-[0.6em]">Priority List</span>
-                            <h2 className={`${playfair.className} text-5xl md:text-7xl text-white font-medium leading-[0.9] tracking-tighter`}>
-                                Access the <span className="italic">off-market</span> collection.
-                            </h2>
-                            <p className="text-stone-400 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed">
-                                Join our private directory to receive earliest notifications on Class A assets before they reach the public inventory.
-                            </p>
-                        </motion.div>
 
-                        <div className="flex flex-col md:flex-row gap-6 max-w-xl mx-auto">
-                            <input
-                                type="email"
-                                placeholder="Official Designation / Email"
-                                className="flex-1 bg-white/5 border border-white/10 rounded-sm px-8 h-20 text-white outline-none focus:bg-white/10 transition-all font-light"
-                            />
-                            <button className="h-20 px-12 bg-white text-stone-900 font-bold uppercase tracking-[0.3em] text-[10px] hover:bg-stone-200 transition-all active:scale-[0.98]">
-                                Join Registry
-                            </button>
-                        </div>
-                        <p className="text-[9px] text-stone-500 font-bold uppercase tracking-[0.4em]">100% Privacy & Non-Disclosure Compliant</p>
-                    </div>
-                </div>
-            </section>
         </main>
     )
 }

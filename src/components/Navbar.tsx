@@ -19,6 +19,9 @@ export default function Navbar() {
     // Hide Navbar on admin routes
     if (pathname?.startsWith('/admin')) return null
 
+    const isDarkBgHero = pathname === '/' || pathname === '/about'
+    const isDarkNavText = isScrolled || !isDarkBgHero
+
     // Lock body scroll
     useEffect(() => {
         if (isOpen) document.body.style.overflow = 'hidden'
@@ -34,7 +37,7 @@ export default function Navbar() {
     const menuItems = [
         { name: 'The Collection', href: '/portfolio', subtitle: "Explore Egypt's finest assets" },
         { name: 'Exclusive Locations', href: '/locations', subtitle: 'Zayed, New Cairo & Beyond' },
-        { name: 'Private Concierge', href: '/contact', subtitle: 'Your 24/7 Lifestyle Manager' },
+        { name: 'Contact Us', href: '/contact', subtitle: 'Your 24/7 Lifestyle Manager' },
         { name: 'About WECAP', href: '/about', subtitle: 'Our Heritage & Standards' },
     ]
 
@@ -55,7 +58,7 @@ export default function Navbar() {
                         <div className={`relative transition-all duration-700 ease-in-out ${isScrolled
                             ? 'h-12 w-36 md:h-20 md:w-64'
                             : 'h-16 w-48 md:h-32 md:w-96'
-                            } ${!isScrolled && pathname === '/' ? 'brightness-0 invert' : ''}`}>
+                            } ${!isScrolled && isDarkBgHero ? 'brightness-0 invert' : ''}`}>
                             <Image
                                 src="/logoheader.png"
                                 alt="WECAP Logo"
@@ -68,36 +71,27 @@ export default function Navbar() {
 
                     {/* Desktop Nav Tools */}
                     <div className="hidden lg:flex items-center gap-12">
-                        <div className={`flex gap-10 text-[10px] font-bold uppercase tracking-[0.4em] ${isScrolled ? 'text-stone-500' : 'text-white/60'
+                        <div className={`flex gap-10 text-[10px] font-bold uppercase tracking-[0.4em] ${isDarkNavText ? 'text-stone-500' : 'text-white/60'
                             }`}>
                             <Link href="/portfolio" className="hover:text-stone-900 transition-colors cursor-pointer">Collection</Link>
                             <Link href="/locations" className="hover:text-stone-900 transition-colors cursor-pointer">Locations</Link>
-                            <Link href="/contact" className="hover:text-stone-900 transition-colors cursor-pointer">Concierge</Link>
+                            <Link href="/about" className="hover:text-stone-900 transition-colors cursor-pointer">About Us</Link>
+                            <Link href="/contact" className="hover:text-stone-900 transition-colors cursor-pointer">Contact Us</Link>
                         </div>
 
                         <div className="h-8 w-[1px] bg-stone-200/30 mx-2" />
 
-                        <div className="flex items-center gap-6">
-                            <button className={`p-2 transition-all hover:scale-110 ${isScrolled ? 'text-stone-900' : 'text-white'}`}>
-                                <Search className="w-4 h-4" />
-                            </button>
-                            <button
-                                onClick={() => setIsOpen(true)}
-                                className={`flex items-center gap-3 px-6 py-3 rounded-full border transition-all hover:bg-stone-900 hover:text-white group ${isScrolled
-                                    ? 'border-stone-200 text-stone-900'
-                                    : 'border-white/20 text-white backdrop-blur-md'
-                                    }`}
-                            >
-                                <span className="text-[10px] font-bold uppercase tracking-widest">Open Menu</span>
-                                <Menu className="w-4 h-4 transition-transform group-hover:rotate-180" />
-                            </button>
+                        <div className={`flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.4em] ${isDarkNavText ? 'text-stone-500' : 'text-white/60'
+                            }`}>
+                            <Link href="/faqs" className="hover:text-stone-900 transition-colors cursor-pointer">FAQs</Link>
+                            <Link href="/privacy" className="hover:text-stone-900 transition-colors cursor-pointer">Privacy Policy</Link>
                         </div>
                     </div>
 
                     {/* Mobile Menu Trigger */}
                     <button
                         onClick={() => setIsOpen(true)}
-                        className={`lg:hidden p-3 rounded-full transition-all active:scale-90 ${isScrolled ? 'bg-stone-100 text-stone-900 shadow-sm' : 'bg-white/10 text-white backdrop-blur-md'
+                        className={`lg:hidden p-3 rounded-full transition-all active:scale-90 ${isDarkNavText ? 'bg-stone-100 text-stone-900 shadow-sm' : 'bg-white/10 text-white backdrop-blur-md'
                             }`}
                     >
                         <Menu className="w-6 h-6" />
@@ -183,7 +177,7 @@ export default function Navbar() {
                                 {/* Sidebar Info in Menu */}
                                 <div className="hidden sm:flex flex-col justify-end space-y-12 pb-12 lg:border-l border-white/5 lg:pl-20">
                                     <div className="space-y-6">
-                                        <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Concierge Desk</h4>
+                                        <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">Contact Us</h4>
                                         <p className="text-stone-400 text-2xl font-light leading-relaxed max-w-sm">
                                             Access priority booking & private viewings across Egypt.
                                         </p>
@@ -210,8 +204,8 @@ export default function Navbar() {
                         <footer className="px-6 lg:px-16 py-10 flex flex-col md:flex-row justify-between items-center border-t border-white/5 gap-6">
                             <p className="text-[9px] font-bold uppercase tracking-[0.4em] text-stone-700">© 2026 WECAP &middot; Signature Real Estate</p>
                             <div className="flex gap-8">
-                                <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-stone-700 hover:text-white transition-colors cursor-pointer">Privacy</span>
-                                <span className="text-[9px] font-bold uppercase tracking-[0.4em] text-stone-700 hover:text-white transition-colors cursor-pointer">Terms</span>
+                                <Link href="/privacy" onClick={() => setIsOpen(false)} className="text-[9px] font-bold uppercase tracking-[0.4em] text-stone-700 hover:text-white transition-colors cursor-pointer">Privacy Policy</Link>
+                                <Link href="/faqs" onClick={() => setIsOpen(false)} className="text-[9px] font-bold uppercase tracking-[0.4em] text-stone-700 hover:text-white transition-colors cursor-pointer">FAQs</Link>
                             </div>
                         </footer>
                     </motion.div>
