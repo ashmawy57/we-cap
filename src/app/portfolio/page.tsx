@@ -95,7 +95,7 @@ export default function PortfolioPage() {
                             <button
                                 key={loc}
                                 onClick={() => setActiveFilter(loc)}
-                                className={`group relative px-8 py-3 rounded-sm transition-all whitespace-nowrap overflow-hidden ${activeFilter === loc ? 'text-white' : 'text-stone-400'
+                                className={`group relative px-8 py-3 rounded-sm transition-all whitespace-nowrap overflow-hidden shrink-0 ${activeFilter === loc ? 'text-white' : 'text-stone-400'
                                     }`}
                             >
                                 <div className={`absolute inset-0 bg-stone-950 transition-transform duration-500 ${activeFilter === loc ? 'translate-y-0' : 'translate-y-full'
@@ -138,7 +138,7 @@ export default function PortfolioPage() {
                                     className="group cursor-pointer"
                                 >
                                     <Link href={`/properties/${prop.id}`}>
-                                        <div className="relative aspect-[3/4] overflow-hidden rounded-sm mb-10 shadow-2xl shadow-stone-200/50">
+                                        <div className="relative aspect-[4/3] overflow-hidden rounded-sm mb-10 shadow-2xl shadow-stone-200/50">
                                             <Image
                                                 src={prop.images[0] || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80'}
                                                 alt={prop.name}

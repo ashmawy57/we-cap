@@ -351,13 +351,13 @@ export default function LandingPage() {
             </p>
           </motion.div>
 
-          <div className="flex overflow-x-auto lg:grid lg:grid-cols-5 gap-3 md:gap-8 mb-20 snap-x snap-mandatory scrollbar-hide -mx-6 px-6 lg:mx-0 lg:px-0 pb-10 lg:pb-0">
+          <div className="flex overflow-x-auto lg:grid lg:grid-cols-5 gap-3 md:gap-8 mb-20 snap-x snap-mandatory no-scrollbar -mx-6 px-6 lg:mx-0 lg:px-0 pb-10 lg:pb-0">
             {[
               { name: "Sheikh Zayed", image: "/sheikh zayed.jpg", fullName: "Sheikh Zayed" },
               { name: "New Cairo", image: "/new cairo.webp", fullName: "New Cairo" },
-              { name: "Down Town", image: "/down town.webp", fullName: "Cairo Downtown" },
-              { name: "North Coast", image: "/north coast.jpg", fullName: "North Coast" },
-              { name: "Red Sea", image: "/red sea.jpg", fullName: "Red Sea" },
+              { name: "Down Town", image: "/down town.webp", fullName: "Downtown" },
+              { name: "North Coast", image: "/north coast.jpg", fullName: "NorthCoast" },
+              { name: "Red Sea", image: "/red sea.jpg", fullName: "RedSea" },
             ].map((dest, i) => {
               const countKey = dest.name.toUpperCase().replace(' ', '_')
               const count = countsByLocation[countKey] || 0
@@ -367,10 +367,10 @@ export default function LandingPage() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ delay: i * 0.1, duration: 0.6 }}
-                  className="group cursor-pointer min-w-[31%] sm:min-w-[22%] lg:min-w-0 snap-start"
+                  className="group cursor-pointer min-w-[45%] sm:min-w-[30%] lg:min-w-0 snap-start"
                 >
                   <Link href={`/portfolio?location=${dest.name}`}>
-                    <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] mb-6 shadow-xl group-hover:shadow-2xl transition-all duration-500">
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] mb-6 shadow-xl group-hover:shadow-2xl transition-all duration-500">
                       <Image
                         src={dest.image}
                         alt={dest.name}
@@ -395,7 +395,7 @@ export default function LandingPage() {
                         <div className="p-1 bg-stone-100 rounded-lg">
                           <MapPin className="w-3 h-3" />
                         </div>
-                        <span className="text-xs font-bold uppercase tracking-widest">{count} LOCATIONS</span>
+                        <span className="text-xs font-bold uppercase tracking-widest">{count} Huts</span>
                       </div>
                     </div>
                   </Link>
@@ -439,7 +439,7 @@ export default function LandingPage() {
             </Link>
           </div>
 
-          <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-16 snap-x snap-mandatory scrollbar-hide -mx-6 px-6 md:mx-0 md:px-0 pb-8 md:pb-0">
+          <div className="flex overflow-x-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-16 snap-x snap-mandatory no-scrollbar -mx-6 px-6 md:mx-0 md:px-0 pb-8 md:pb-0">
             {loading ? (
               <div className="col-span-full flex flex-col items-center justify-center py-20 gap-4">
                 <Loader2 className="w-10 h-10 text-stone-900 animate-spin" />
@@ -454,7 +454,7 @@ export default function LandingPage() {
                 transition={{ delay: idx * 0.2, duration: 1 }}
                 className="group min-w-[75vw] md:min-w-0 snap-start"
               >
-                <div className="relative aspect-[3/4] overflow-hidden rounded-sm mb-8 shadow-2xl shadow-stone-200/50">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-sm mb-8 shadow-2xl shadow-stone-200/50">
                   <Image
                     src={prop.images[0] || 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80'}
                     alt={prop.name}
