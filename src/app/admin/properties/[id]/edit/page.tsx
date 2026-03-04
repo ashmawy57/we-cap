@@ -11,8 +11,10 @@ const playfair = Playfair_Display({ subsets: ['latin'] })
 
 const LOCATIONS = [
     { value: 'SHEIKH_ZAYED', label: 'Sheikh Zayed' },
-    { value: 'OCTOBER_6TH', label: '6th of October' },
     { value: 'NEW_CAIRO', label: 'New Cairo' },
+    { value: 'DOWN_TOWN', label: 'Down Town' },
+    { value: 'NORTH_COAST', label: 'North Coast' },
+    { value: 'RED_SEA', label: 'Red Sea' },
 ]
 
 const PROPERTY_TYPES = [
