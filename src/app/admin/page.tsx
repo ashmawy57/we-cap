@@ -18,7 +18,7 @@ export default function AdminDashboard() {
                     { title: 'Total Properties', value: '12', icon: Building2, trend: 'Active portfolio' },
                     { title: 'Total Bookings', value: '48', icon: CalendarCheck, trend: 'All time' },
                     { title: 'Unique Clients', value: '156', icon: Users, trend: 'Registered' },
-                    { title: 'Revenue (Est.)', value: 'EGP 1.2M', icon: TrendingUp, trend: 'Current year' },
+                    { title: 'Revenue (Est.)', value: 'USD 1.2M', icon: TrendingUp, trend: 'Current year' },
                 ].map((stat, i) => (
                     <div key={i} className="bg-white p-6 rounded-sm border border-stone-100 shadow-sm flex flex-col gap-4 group hover:border-stone-300 transition-colors">
                         <div className="flex justify-between items-start">

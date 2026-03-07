@@ -21,6 +21,11 @@ const PROPERTY_TYPES = [
     'Villa', 'Standalone', 'Townhouse', 'Penthouse', 'Apartment', 'Duplex'
 ]
 
+const AMENITIES_LIST = [
+    'Private Pool', 'WiFi', 'Secure Parking',
+    'Gym', 'Garden', '24/7 Security', "Nanny's room"
+]
+
 export default function EditProperty() {
     const router = useRouter()
     const params = useParams()
@@ -47,10 +52,11 @@ export default function EditProperty() {
         price_per_night: 0,
         bedrooms: 1,
         bathrooms: 1,
+        living_rooms: 1,
         max_guests: 0,
         area_sqm: 0,
         property_type: 'Villa',
-        amenities: '',
+        amenities: [] as string[],
         is_active: true
     })
 
@@ -77,10 +83,11 @@ export default function EditProperty() {
                 price_per_night: data.price_per_night || 0,
                 bedrooms: data.bedrooms || 1,
                 bathrooms: data.bathrooms || 1,
+                living_rooms: data.living_rooms || 1,
                 max_guests: data.max_guests || 0,
                 area_sqm: data.area_sqm || 0,
                 property_type: data.property_type || 'Villa',
-                amenities: data.amenities ? data.amenities.join(', ') : '',
+                amenities: data.amenities || [],
                 is_active: data.is_active ?? true
             })
             setExistingImages(data.images || [])
@@ -96,6 +103,17 @@ export default function EditProperty() {
         } else {
             setFormData(prev => ({ ...prev, [name]: value }))
         }
+    }
+
+    const handleAmenityChange = (amenity: string) => {
+        setFormData(prev => {
+            const current = [...prev.amenities]
+            if (current.includes(amenity)) {
+                return { ...prev, amenities: current.filter(a => a !== amenity) }
+            } else {
+                return { ...prev, amenities: [...current, amenity] }
+            }
+        })
     }
 
     const handleNewImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,12 +182,7 @@ export default function EditProperty() {
 
             if (allImages.length === 0) throw new Error('Please keep at least one image.')
 
-            // 3. Parse amenities
-            const amenitiesArray = formData.amenities
-                ? formData.amenities.split(',').map(a => a.trim()).filter(a => a)
-                : []
-
-            // 4. Update property in DB
+            // 3. Update property in DB
             const updateData = {
                 name: formData.name,
                 description: formData.description,
@@ -178,10 +191,11 @@ export default function EditProperty() {
                 price_per_night: Number(formData.price_per_night),
                 bedrooms: Number(formData.bedrooms),
                 bathrooms: Number(formData.bathrooms),
+                living_rooms: Number(formData.living_rooms),
                 max_guests: Number(formData.max_guests),
                 area_sqm: Number(formData.area_sqm),
                 property_type: formData.property_type,
-                amenities: amenitiesArray,
+                amenities: formData.amenities,
                 images: allImages,
                 is_active: formData.is_active
             }
@@ -263,7 +277,7 @@ export default function EditProperty() {
                                     <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Asset Title *</label>
                                     <input required name="name" type="text" value={formData.name} onChange={handleChange} className="w-full border-b border-stone-200 py-3 text-lg text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white" />
                                 </div>
-                                <div className="grid grid-cols-2 gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Asset Type</label>
                                         <select name="property_type" value={formData.property_type} onChange={handleChange} className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white">
@@ -282,6 +296,10 @@ export default function EditProperty() {
                                     <input required name="address" type="text" value={formData.address} onChange={handleChange} className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white" />
                                 </div>
                                 <div className="space-y-2">
+                                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Guests</label>
+                                    <input required name="max_guests" type="number" value={formData.max_guests} onChange={handleChange} className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white font-mono" />
+                                </div>
+                                <div className="space-y-2">
                                     <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Narrative / Description *</label>
                                     <textarea required name="description" rows={6} value={formData.description} onChange={handleChange} className="w-full border border-stone-100 p-4 text-stone-600 font-light resize-none focus:border-stone-300 outline-none transition-all leading-relaxed" />
                                 </div>
@@ -291,7 +309,7 @@ export default function EditProperty() {
                         {/* Group: Technical Specs */}
                         <div className="space-y-8">
                             <h3 className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-400 border-b border-stone-50 pb-4">Technical Specifications</h3>
-                            <div className="grid grid-cols-2 gap-8">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Area (Sq. Meters) *</label>
                                     <input required name="area_sqm" type="number" value={formData.area_sqm} onChange={handleChange} className="w-full border-b border-stone-200 py-3 text-lg font-mono text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white" />
@@ -300,17 +318,38 @@ export default function EditProperty() {
                                     <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Rate / Night ($)</label>
                                     <input required name="price_per_night" type="number" step="0.01" value={formData.price_per_night} onChange={handleChange} className="w-full border-b border-stone-200 py-3 text-lg font-mono text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white" />
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Bedrooms</label>
-                                    <input required name="bedrooms" type="number" value={formData.bedrooms} onChange={handleChange} className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white font-mono" />
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:col-span-2">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Bedrooms</label>
+                                        <input required name="bedrooms" type="number" value={formData.bedrooms} onChange={handleChange} className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white font-mono" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Bathrooms</label>
+                                        <input required name="bathrooms" type="number" step={0.5} value={formData.bathrooms} onChange={handleChange} className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white font-mono" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Living Rooms</label>
+                                        <input required name="living_rooms" type="number" value={formData.living_rooms} onChange={handleChange} className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white font-mono" />
+                                    </div>
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Bathrooms</label>
-                                    <input required name="bathrooms" type="number" step={0.5} value={formData.bathrooms} onChange={handleChange} className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white font-mono" />
-                                </div>
-                                <div className="space-y-2 col-span-2">
-                                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Amenities (Comma separated)</label>
-                                    <input name="amenities" type="text" value={formData.amenities} onChange={handleChange} className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white" placeholder="Private Pool, WiFi, Secure Parking" />
+                                <div className="space-y-4 md:col-span-2">
+                                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Amenities</label>
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 border-b border-stone-200 pb-6 pt-2">
+                                        {AMENITIES_LIST.map(amenity => (
+                                            <div key={amenity} className="flex items-center gap-3">
+                                                <input
+                                                    type="checkbox"
+                                                    id={`amenity-${amenity}`}
+                                                    checked={formData.amenities.includes(amenity)}
+                                                    onChange={() => handleAmenityChange(amenity)}
+                                                    className="w-4 h-4 accent-stone-900 cursor-pointer"
+                                                />
+                                                <label htmlFor={`amenity-${amenity}`} className="text-xs text-stone-700 cursor-pointer">
+                                                    {amenity}
+                                                </label>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>

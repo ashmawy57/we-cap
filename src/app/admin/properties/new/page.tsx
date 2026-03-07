@@ -21,6 +21,11 @@ const PROPERTY_TYPES = [
     'Villa', 'Standalone', 'Townhouse', 'Penthouse', 'Apartment', 'Duplex'
 ]
 
+const AMENITIES_LIST = [
+    'Private Pool', 'WiFi', 'Secure Parking',
+    'Gym', 'Garden', '24/7 Security', "Nanny's room"
+]
+
 export default function NewProperty() {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
@@ -93,8 +98,7 @@ export default function NewProperty() {
             }
 
             // 2. Parse data
-            const amenitiesText = formData.get('amenities') as string
-            const amenitiesArray = amenitiesText ? amenitiesText.split(',').map(a => a.trim()).filter(a => a) : []
+            const amenitiesArray = formData.getAll('amenities') as string[]
 
             // 3. Insert property record
             const propertyData = {
@@ -105,6 +109,7 @@ export default function NewProperty() {
                 price_per_night: Number(formData.get('price_per_night')),
                 bedrooms: Number(formData.get('bedrooms')),
                 bathrooms: Number(formData.get('bathrooms')),
+                living_rooms: Number(formData.get('living_rooms')),
                 max_guests: Number(formData.get('max_guests')),
                 area_sqm: Number(formData.get('area_sqm')),
                 property_type: formData.get('property_type') as string,
@@ -165,7 +170,7 @@ export default function NewProperty() {
                                     <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Asset Title *</label>
                                     <input required name="name" type="text" className="w-full border-b border-stone-200 py-3 text-lg text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white" placeholder="e.g. Villa Beverly 110" />
                                 </div>
-                                <div className="grid grid-cols-2 gap-6">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Asset Type</label>
                                         <select name="property_type" className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white">
@@ -184,6 +189,10 @@ export default function NewProperty() {
                                     <input required name="address" type="text" className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white" placeholder="e.g. Street 10, Beverly Hills" />
                                 </div>
                                 <div className="space-y-2">
+                                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Guests</label>
+                                    <input required name="max_guests" type="number" defaultValue={1} className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white font-mono" />
+                                </div>
+                                <div className="space-y-2">
                                     <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Narrative / Description *</label>
                                     <textarea required name="description" rows={6} className="w-full border border-stone-100 p-4 text-stone-600 font-light resize-none focus:border-stone-300 outline-none transition-all leading-relaxed" placeholder="Describe the atmosphere..." />
                                 </div>
@@ -193,7 +202,7 @@ export default function NewProperty() {
                         {/* Group: Technical Specs */}
                         <div className="space-y-8">
                             <h3 className="text-[10px] font-bold uppercase tracking-[0.5em] text-stone-400 border-b border-stone-50 pb-4">Technical Specifications</h3>
-                            <div className="grid grid-cols-2 gap-8">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-2">
                                     <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Area (Sq. Meters) *</label>
                                     <input required name="area_sqm" type="number" className="w-full border-b border-stone-200 py-3 text-lg font-mono text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white" placeholder="0" />
@@ -202,17 +211,38 @@ export default function NewProperty() {
                                     <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Rate / Night ($)</label>
                                     <input required name="price_per_night" type="number" step="0.01" className="w-full border-b border-stone-200 py-3 text-lg font-mono text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white" placeholder="0.00" />
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Bedrooms</label>
-                                    <input required name="bedrooms" type="number" defaultValue={1} className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white font-mono" />
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:col-span-2">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Bedrooms</label>
+                                        <input required name="bedrooms" type="number" defaultValue={1} className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white font-mono" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Bathrooms</label>
+                                        <input required name="bathrooms" type="number" defaultValue={1} step={0.5} className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white font-mono" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Living Rooms</label>
+                                        <input required name="living_rooms" type="number" defaultValue={1} className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white font-mono" />
+                                    </div>
                                 </div>
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Bathrooms</label>
-                                    <input required name="bathrooms" type="number" defaultValue={1} step={0.5} className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white font-mono" />
-                                </div>
-                                <div className="space-y-2 col-span-2">
-                                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Amenities (Comma separated)</label>
-                                    <input name="amenities" type="text" className="w-full border-b border-stone-200 py-3 text-stone-900 outline-none focus:border-stone-900 transition-colors bg-white" placeholder="Private Pool, WiFi, Secure Parking" />
+                                <div className="space-y-4 md:col-span-2">
+                                    <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">Amenities</label>
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 border-b border-stone-200 pb-6 pt-2">
+                                        {AMENITIES_LIST.map(amenity => (
+                                            <div key={amenity} className="flex items-center gap-3">
+                                                <input
+                                                    type="checkbox"
+                                                    id={`amenity-${amenity}`}
+                                                    name="amenities"
+                                                    value={amenity}
+                                                    className="w-4 h-4 accent-stone-900 cursor-pointer"
+                                                />
+                                                <label htmlFor={`amenity-${amenity}`} className="text-xs text-stone-700 cursor-pointer">
+                                                    {amenity}
+                                                </label>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>

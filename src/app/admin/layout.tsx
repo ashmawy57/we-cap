@@ -3,13 +3,14 @@
 import { Playfair_Display } from "next/font/google"
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
+import { useState } from 'react'
 import {
     Building2,
     CalendarCheck,
     LayoutDashboard,
     LogOut,
-    Settings,
-    Users
+    Menu,
+    X
 } from 'lucide-react'
 import { logoutAdmin } from './actions'
 
@@ -25,6 +26,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const pathname = usePathname()
     const router = useRouter()
 
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
     // Don't show the sidebar if we're on the login page
     if (pathname === '/admin/login') {
         return <>{children}</>
@@ -37,8 +40,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     return (
         <div className="flex h-screen bg-stone-50 text-stone-900 font-sans">
+            {/* Mobile Header */}
+            <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-white border-b border-stone-200 flex items-center justify-between px-4 z-40">
+                <Link href="/" className={`${playfair.className} text-xl font-black tracking-tighter`}>WECAP</Link>
+                <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 -mr-2 text-stone-900">
+                    {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                </button>
+            </div>
+
+            {/* Mobile Sidebar Overlay */}
+            {isMobileMenuOpen && (
+                <div
+                    className="md:hidden fixed inset-0 bg-stone-900/50 z-40"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                />
+            )}
+
             {/* Sidebar Navigation */}
-            <aside className="w-64 bg-white border-r border-stone-200 flex flex-col justify-between hidden md:flex h-full fixed top-0 left-0 z-40">
+            <aside className={`w-64 bg-white border-r border-stone-200 flex flex-col justify-between fixed top-0 left-0 z-50 h-full transition-transform duration-300 md:translate-x-0 ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                 <div>
                     {/* Brand header */}
                     <div className="h-24 flex items-center px-8 border-b border-stone-100">
@@ -54,6 +73,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                 <Link
                                     key={link.name}
                                     href={link.href}
+                                    onClick={() => setIsMobileMenuOpen(false)}
                                     className={`flex items-center gap-4 px-4 py-3 rounded-sm text-xs font-semibold tracking-wider transition-all duration-300 ${isActive ? 'bg-stone-900 text-white' : 'text-stone-500 hover:bg-stone-50 hover:text-stone-900'
                                         }`}
                                 >
@@ -78,8 +98,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </aside>
 
             {/* Main Content Area */}
-            <main className="flex-1 md:ml-64 overflow-x-hidden min-h-screen">
-                <div className="max-w-[1400px] mx-auto p-8 md:p-12 mb-20">
+            <main className="flex-1 md:ml-64 overflow-x-hidden min-h-screen pt-16 md:pt-0">
+                <div className="max-w-[1400px] mx-auto p-4 sm:p-8 md:p-12 mb-20 overflow-x-hidden">
                     {children}
                 </div>
             </main>

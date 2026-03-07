@@ -38,10 +38,11 @@ const playfair = Playfair_Display({ subsets: ['latin'] })
 interface BookingWidgetProps {
     pricePerNight: number
     propertyName?: string
+    location?: string
     currency?: string
 }
 
-export default function BookingWidget({ pricePerNight, propertyName, currency = 'EGP' }: BookingWidgetProps) {
+export default function BookingWidget({ pricePerNight, propertyName, location, currency = 'USD' }: BookingWidgetProps) {
     const [date, setDate] = useState<DateRange | undefined>({
         from: undefined,
         to: undefined,
@@ -128,6 +129,17 @@ export default function BookingWidget({ pricePerNight, propertyName, currency = 
                 <CardContent className="p-10 space-y-8">
                     {/* Inputs Section */}
                     <div className="space-y-6">
+                        {/* Property Info */}
+                        {(propertyName || location) && (
+                            <div className="space-y-2 border-b border-stone-100 pb-6 mb-2">
+                                <label className="text-[10px] uppercase font-black tracking-[0.3em] text-stone-400 block ml-1">Asset Selected</label>
+                                <div>
+                                    {propertyName && <h3 className={`${playfair.className} text-xl font-bold text-stone-900`}>{propertyName}</h3>}
+                                    {location && <div className="text-xs font-medium text-stone-500 mt-1 uppercase tracking-widest flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-stone-300 inline-block"></span> {location}</div>}
+                                </div>
+                            </div>
+                        )}
+
                         {/* Date Picker */}
                         <div className="space-y-3">
                             <label className="text-[10px] uppercase font-black tracking-[0.3em] text-stone-400 block ml-1">Stay Period</label>

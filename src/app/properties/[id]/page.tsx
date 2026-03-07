@@ -189,7 +189,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
 
                 {/* Sidebar Widget */}
                 <aside className="lg:col-span-5 relative">
-                    <BookingWidget pricePerNight={property.price_per_night || 0} />
+                    <BookingWidget pricePerNight={property.price_per_night || 0} propertyName={property.name} location={property.location} />
                 </aside>
             </section>
         </div>
