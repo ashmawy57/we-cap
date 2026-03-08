@@ -15,10 +15,10 @@ export default function Footer() {
     if (pathname?.startsWith('/admin')) return null
 
     return (
-        <footer className="bg-stone-950 pt-32 pb-12 px-6 lg:px-24 text-white">
+        <footer className="bg-stone-950 pt-16 md:pt-20 pb-12 px-6 lg:px-24 text-white">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-20 items-start mb-24 max-w-[1800px] mx-auto">
                 <div className="col-span-1 md:col-span-2 space-y-8">
-                    <div className="relative h-24 w-[280px] sm:h-32 sm:w-[400px] brightness-0 invert opacity-90">
+                    <div className="relative h-24 w-[280px] sm:h-32 sm:w-[400px] brightness-0 invert opacity-90 scale-125 md:scale-150 origin-left">
                         <Image
                             src="/logofotter.png"
                             alt="WECAP Logo"

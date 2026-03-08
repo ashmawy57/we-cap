@@ -55,7 +55,7 @@ export default function Navbar() {
                         href="/"
                         className="relative z-[110] transition-all duration-500"
                     >
-                        <div className={`relative transition-all duration-700 ease-in-out ${isScrolled
+                        <div className={`relative transition-all duration-700 ease-in-out scale-125 md:scale-150 origin-left ${isScrolled
                             ? 'h-12 w-36 md:h-20 md:w-64'
                             : 'h-16 w-48 md:h-32 md:w-96'
                             } ${!isScrolled && isDarkBgHero ? 'brightness-0 invert' : ''}`}>

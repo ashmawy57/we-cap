@@ -1,6 +1,7 @@
 'use client'
 
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Playfair_Display } from "next/font/google";
 
 import Image from 'next/image'
@@ -22,11 +23,22 @@ import { supabase } from '@/lib/supabase'
 
 const playfair = Playfair_Display({ subsets: ['latin'] })
 
-export default function PortfolioPage() {
+function PortfolioContent() {
+    const searchParams = useSearchParams()
+    const locationParam = searchParams.get('location')
+    const guestsParamStr = searchParams.get('guests')
+    const guestsParam = guestsParamStr ? parseInt(guestsParamStr, 10) : 1
+
     const [allProperties, setAllProperties] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
-    const [activeFilter, setActiveFilter] = useState('All')
+    const [activeFilter, setActiveFilter] = useState(locationParam || 'All')
     const [isSearchOpen, setIsSearchOpen] = useState(false)
+
+    useEffect(() => {
+        if (locationParam) {
+            setActiveFilter(locationParam)
+        }
+    }, [locationParam])
 
     useEffect(() => {
         async function fetchProps() {
@@ -45,10 +57,13 @@ export default function PortfolioPage() {
 
     const filteredProperties = useMemo(() => {
         const normalizedFilter = activeFilter.toUpperCase().replace(' ', '_')
-        return activeFilter === 'All'
-            ? allProperties
-            : allProperties.filter(p => p.location === normalizedFilter)
-    }, [activeFilter, allProperties])
+        return allProperties.filter(p => {
+            const matchesLocation = activeFilter === 'All' || p.location === normalizedFilter
+            // Filter by max_guests if available in DB
+            const matchesGuests = p.max_guests ? p.max_guests >= guestsParam : true
+            return matchesLocation && matchesGuests
+        })
+    }, [activeFilter, allProperties, guestsParam])
 
     const locationCounts = useMemo(() => {
         const counts: Record<string, number> = { All: allProperties.length }
@@ -233,5 +248,18 @@ export default function PortfolioPage() {
 
 
         </main>
+    )
+}
+
+export default function PortfolioPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-white flex flex-col items-center justify-center py-40 gap-6">
+                <Loader2 className="w-12 h-12 text-stone-900 animate-spin" />
+                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-stone-400">Loading...</p>
+            </div>
+        }>
+            <PortfolioContent />
+        </Suspense>
     )
 }

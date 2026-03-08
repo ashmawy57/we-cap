@@ -173,18 +173,7 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                         </div>
                     </div>
 
-                    {/* Concierge Banner */}
-                    <div className="p-16 bg-stone-950 text-white rounded-sm relative overflow-hidden">
-                        <div className="relative z-10 space-y-8">
-                            <Crown className="w-10 h-10 text-stone-500" />
-                            <h3 className={`${playfair.className} text-3xl md:text-5xl font-semibold leading-tight`}>Need a tailored <br /> arrangement?</h3>
-                            <p className="text-stone-500 max-w-sm font-light leading-relaxed">Our residential directors are available for bespoke setups, including private security and concierge inventory.</p>
-                            <button className="bg-white text-stone-900 font-bold uppercase tracking-widest text-[10px] px-12 py-8 rounded-sm hover:bg-stone-200">Enquire with Director</button>
-                        </div>
-                        <div className="absolute top-1/2 right-0 -translate-y-1/2 p-20 opacity-10 pointer-events-none">
-                            <Waves className="w-64 h-64" />
-                        </div>
-                    </div>
+
                 </div>
 
                 {/* Sidebar Widget */}

@@ -116,7 +116,7 @@ export default function LandingPage() {
             transition={{ duration: 1 }}
             className="mt-10"
           >
-            <span className="inline-block text-white/60 text-[10px] font-bold uppercase tracking-[0.6em] mb-4 border border-white/20 px-8 py-3 rounded-full backdrop-blur-xl">
+            <span className="inline-block text-white/60 text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.3em] sm:tracking-[0.6em] whitespace-nowrap mb-4 border border-white/20 px-6 sm:px-8 py-2 sm:py-3 rounded-full backdrop-blur-xl">
               Stay Smart, Stay WeCap.
             </span>
           </motion.div>
@@ -669,7 +669,7 @@ export default function LandingPage() {
 
         <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=2400"
+            src="/call to action.png"
             alt="Final Call"
             fill
             className="object-cover brightness-[0.4]"
@@ -683,7 +683,7 @@ export default function LandingPage() {
           className="relative z-10 px-6 max-w-5xl space-y-16"
         >
           <h2 className={`${playfair.className} text-4xl sm:text-6xl md:text-[8vw] lg:text-[10vw] text-white font-medium leading-[0.9] tracking-tighter`}>
-            Elevate your <br /> <span className="italic font-light text-stone-400">lifestyle standards.</span>
+            Elevate your <br /> <span className="italic font-light text-stone-200">lifestyle standards.</span>
           </h2>
           <div className="flex flex-col sm:flex-row gap-6 md:gap-10 justify-center items-center">
             <Link
